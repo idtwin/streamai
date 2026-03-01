@@ -1,0 +1,398 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0f172a;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --accent: #8b5cf6;
+    --surface-glass: rgba(30, 41, 59, 0.7);
+    --surface-glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --danger: #ef4444;
+    --success: #22c55e;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Dynamic Background */
+.background-glass {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(circle, var(--primary) 0%, var(--accent) 50%, transparent 80%);
+    filter: blur(120px);
+    opacity: 0.15;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: pulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.10; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.25; }
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--surface-glass-border);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.logo-box {
+    margin: 0 auto 1.5rem;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+}
+
+.logo-icon {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -1px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.version-badge {
+    display: inline-block;
+    vertical-align: top;
+    background: var(--primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    margin-left: 0.5rem;
+}
+
+.header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 1rem auto 0;
+    line-height: 1.6;
+}
+
+/* Sections */
+.config-section {
+    margin-bottom: 2.5rem;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.helper-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Inputs & Buttons */
+.input-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"], select {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+    outline: none;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.verify-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.verify-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.verify-btn:active {
+    transform: translateY(1px);
+}
+
+.status-message {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.status-message.success {
+    color: var(--success);
+}
+
+.status-message.error {
+    color: var(--danger);
+}
+
+/* Checkbox Grid (Providers & Qualities) */
+.providers-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.provider-chip {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.provider-chip:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.provider-chip.selected {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+/* Multi-selects layout */
+.flex-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.flex-row .input-group {
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.flex-row label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+select {
+    width: 100%;
+    appearance: none;
+    cursor: pointer;
+}
+
+.select-wrapper::after {
+    content: "▼";
+    font-size: 0.8rem;
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.select-all-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.select-all-btn:hover {
+    color: white;
+}
+
+/* Footer / Submit */
+.action-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.install-btn {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    padding: 1.25rem 4rem;
+    border-radius: 16px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.install-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5);
+}
+
+.install-btn:hover::after {
+    opacity: 1;
+}
+
+.install-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+.copy-link a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+    border-bottom: 1px dashed var(--text-secondary);
+}
+
+.copy-link a:hover {
+    color: white;
+    border-color: white;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.config-section {
+    animation: slideDown 0.5s ease-out backwards;
+}
+
+.config-section:nth-child(2) { animation-delay: 0.1s; }
+.config-section:nth-child(3) { animation-delay: 0.2s; }
+.config-section:nth-child(4) { animation-delay: 0.3s; }
+.config-section:nth-child(5) { animation-delay: 0.4s; }
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+    .flex-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .header h1 {
+        font-size: 2rem;
+    }
+    .install-btn {
+        width: 100%;
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamAI | Premium Stremio Add-on</title>
+    <!-- Modern Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-glass"></div>
+    <div class="container">
+
+        <header class="header">
+            <div class="logo-box">
+                <div class="logo-icon">SAI</div>
+            </div>
+            <h1>StreamAI</h1>
+            <span class="version-badge">v1.0.0</span>
+            <p>The ultimate Stremio streaming experience. Cached torrents, instant playback, unparalleled
+                customizability.</p>
+        </header>
+
+        <section class="config-section">
+            <div class="section-header">
+                <h2>Real Debrid Integration</h2>
+                <div class="helper-text">Required for instant cached streaming.</div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="rd-api-key" placeholder="Enter Real Debrid API Key...">
+                <button class="verify-btn" id="verify-rd-btn">Verify</button>
+            </div>
+            <p class="status-message" id="rd-status"></p>
+        </section>
+
+        <section class="config-section">
+            <div class="section-header">
+                <h2>Indexer Services</h2>
+                <div class="helper-text">Maximize cached links by querying massive databases.</div>
+            </div>
+            <div class="input-group" style="margin-bottom: 1rem;">
+                <input type="text" id="orion-api-key" placeholder="Orion API Key (Optional)...">
+            </div>
+            <div class="providers-grid" id="indexers-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <section class="config-section">
+            <div class="section-header">
+                <h2>Video Quality Filters</h2>
+                <div class="helper-text">Exclude the resolutions you don't want to see.</div>
+            </div>
+            <div class="providers-grid quality-grid" id="quality-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <section class="config-section">
+            <div class="section-header">
+                <h2>Sorting & Limits</h2>
+            </div>
+            <div class="flex-row">
+                <div class="input-group">
+                    <label>Sort Results By</label>
+                    <div class="select-wrapper">
+                        <select id="sort-by">
+                            <option value="quality_seeders">Quality then Seeders</option>
+                            <option value="quality_size">Quality then Size</option>
+                            <option value="seeders">Seeders</option>
+                            <option value="size">Size</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Max Results Per Quality</label>
+                    <div class="select-wrapper">
+                        <select id="max-results">
+                            <option value="all">All Results</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="action-footer">
+            <button class="install-btn" id="install-btn">INSTALL ADD-ON</button>
+            <p class="copy-link"><a href="#" id="copy-link-btn">Copy Link</a></p>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+
+</html>
