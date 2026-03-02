@@ -82,7 +82,7 @@ async function getStreams(type, id, configString, hostUrl) {
         allTorrents.sort((a, b) => b.seeders - a.seeders);
 
         if (!allTorrents || allTorrents.length === 0) {
-            return { streams: [] };
+            return { streams: [{ name: 'StreamAI\nEmpty', title: `[Blocked] 0 Torrents found.\nProviders may be blocking your Cloud IP.`, url: '#' }] };
         }
 
         // Step 2: If Real Debrid token is provided, verify and format links
@@ -99,10 +99,14 @@ async function getStreams(type, id, configString, hostUrl) {
             }));
         }
 
+        if (streams.length === 0) {
+            return { streams: [{ name: 'StreamAI\nDebug', title: `[Error] 0 Streams generated.\nCheck Orion API / DMM Proxy blocks.`, url: '#' }] };
+        }
+
         return { streams };
     } catch (err) {
         console.error(`[Stream Handler Error]`, err);
-        return { streams: [] };
+        return { streams: [{ name: 'StreamAI\nCrash', title: `[Fatal Error] ${err.message}`, url: '#' }] };
     }
 }
 
