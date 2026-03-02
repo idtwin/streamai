@@ -155,16 +155,24 @@ app.get('/:config/manifest.json', (req, res) => {
 });
 
 app.get('/stream/:type/:id.json', async (req, res) => {
-    const hostUrl = `${req.protocol}://${req.get('host')}`;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const hostUrl = `${protocol}://${req.get('host')}`;
     const response = await getStreams(req.params.type, req.params.id, null, hostUrl);
     res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Content-Type', 'application/json');
     res.json(response);
 });
 
 app.get('/:config/stream/:type/:id.json', async (req, res) => {
-    const hostUrl = `${req.protocol}://${req.get('host')}`;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const hostUrl = `${protocol}://${req.get('host')}`;
     const response = await getStreams(req.params.type, req.params.id, req.params.config, hostUrl);
     res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Content-Type', 'application/json');
     res.json(response);
 });
 
