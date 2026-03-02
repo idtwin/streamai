@@ -93,7 +93,7 @@ async function getStreams(type, id, configString, hostUrl) {
         allTorrents.sort((a, b) => b.seeders - a.seeders);
 
         if (!allTorrents || allTorrents.length === 0) {
-            return { streams: [{ name: 'StreamAI\nEmpty', title: `[Blocked] 0 Torrents found.\nProviders may be blocking your Cloud IP.`, url: '#' }] };
+            return { streams: [{ name: 'StreamAI\nEmpty', title: `[Blocked] 0 Torrents found.\nProviders may be blocking your Cloud IP.`, url: '#' }], cacheMaxAge: 0 };
         }
 
         // Step 2: If Real Debrid token is provided, verify and format links
@@ -111,7 +111,7 @@ async function getStreams(type, id, configString, hostUrl) {
         }
 
         if (streams.length === 0) {
-            return { streams: [{ name: 'StreamAI\nDebug', title: `[Error] 0 Streams generated.\nCheck Orion API / DMM Proxy blocks.`, url: '#' }] };
+            return { streams: [{ name: 'StreamAI\nDebug', title: `[Error] 0 Streams generated.\nCheck Orion API / DMM Proxy blocks.`, url: '#' }], cacheMaxAge: 0 };
         }
 
         return { streams };
@@ -140,12 +140,14 @@ app.get('/:config/manifest.json', (req, res) => {
 app.get('/stream/:type/:id.json', async (req, res) => {
     const hostUrl = `${req.protocol}://${req.get('host')}`;
     const response = await getStreams(req.params.type, req.params.id, null, hostUrl);
+    res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate');
     res.json(response);
 });
 
 app.get('/:config/stream/:type/:id.json', async (req, res) => {
     const hostUrl = `${req.protocol}://${req.get('host')}`;
     const response = await getStreams(req.params.type, req.params.id, req.params.config, hostUrl);
+    res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate');
     res.json(response);
 });
 
