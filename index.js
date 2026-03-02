@@ -41,19 +41,30 @@ function decodeConfig(configString) {
 }
 
 // Global Addon Manifest Definition
-// We use a function so we can customize it based on user config (optional, but good practice)
-const getManifest = (config = {}) => ({
-    id: 'com.streamai.addon',
-    version: '1.0.0',
-    name: 'StreamAI',
-    description: 'Premium streaming experience with Real Debrid and custom torrent providers.',
-    types: ['movie', 'series'],
-    catalogs: [],
-    resources: ['stream'],
-    idPrefixes: ['tt'], // IMDb ID prefix
-    logo: 'https://i.imgur.com/xO7vSOf.png', // Temporary placeholder for logo
-    background: 'https://i.imgur.com/vHqB37t.png', // Temporary placeholder for background
-});
+// We use a function so we can customize it based on user config
+const crypto = require('crypto');
+
+const getManifest = (config = {}) => {
+    // Generate a short hash of the config to make the Addon ID mathematically unique
+    // This forces Stremio's Cloud Sync to broadcast the update to Smart TVs 
+    // instead of ignoring the installation url if it matches an old ID in the cache.
+    const configString = JSON.stringify(config);
+    const configHash = crypto.createHash('md5').update(configString).digest('hex').substring(0, 8);
+    const dynamicId = configString === '{}' ? 'com.streamai.addon' : `com.streamai.addon.${configHash}`;
+
+    return {
+        id: dynamicId,
+        version: '1.0.0',
+        name: 'StreamAI',
+        description: 'Premium streaming experience with Real Debrid and custom torrent providers.',
+        types: ['movie', 'series'],
+        catalogs: [],
+        resources: ['stream'],
+        idPrefixes: ['tt'], // IMDb ID prefix
+        logo: 'https://i.imgur.com/xO7vSOf.png', // Temporary placeholder for logo
+        background: 'https://i.imgur.com/vHqB37t.png', // Temporary placeholder for background
+    };
+};
 
 // Create the Addon Interface
 const builder = new addonBuilder(getManifest());
@@ -129,10 +140,16 @@ const addonInterface = builder.getInterface();
 // Wrap the Stremio Addon router to handle dynamic config in the URL
 // Stremio will call /:config/manifest.json and /:config/stream/:type/:id.json
 app.get('/manifest.json', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Content-Type', 'application/json');
     res.json(getManifest({}));
 });
 
 app.get('/:config/manifest.json', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Content-Type', 'application/json');
     const config = decodeConfig(req.params.config);
     res.json(getManifest(config));
 });
